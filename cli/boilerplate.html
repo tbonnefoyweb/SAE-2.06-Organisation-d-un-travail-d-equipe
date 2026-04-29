@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mémoires — IUT Lyon 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="progress"></div>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div id="intro-year">BUT</div>
+    <div id="intro-sub">IUT Lyon 1 &nbsp;·&nbsp; Mémoires</div>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-eyebrow">IUT Lyon 1 &nbsp;·&nbsp; BUT {{FORMATION}}</p>
+    <h1 class="hero-title">{{NOM}}<br><em>{{PRENOM}}</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Le temps passe. Les images, elles, demeurent.</p>
+    <div class="scroll-hint">Défiler</div>
+  </section>
+
+  <!-- TIMELINE -->
+  <main id="timeline">
+
+    <!-- CHAPITRE I -->
+    <div class="chapter-label" data-reveal>
+      <div class="chapter-num">I</div>
+      <div class="chapter-meta">
+        <div class="chapter-tag">Première année</div>
+        <div class="chapter-title">Le <em>commencement</em></div>
+      </div>
+    </div>
+
+    <article class="memory" data-reveal>
+      <div class="memory-photo">
+        <div class="memory-photo-inner">
+          <!--
+            object-position : ajuste selon ta photo.
+            "center top"    → cadre le haut (visage/buste)
+            "center center" → centre (défaut)
+            "center bottom" → cadre le bas
+          -->
+          <img src="image1.png"
+               alt="Première année"
+               loading="lazy"
+               style="object-position: center top;">
+        </div>
+        <div class="film-tick">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="memory-text">
+        <p class="memory-date">Année 1 &nbsp;·&nbsp; 2023 – 2024</p>
+        <h2 class="memory-headline">Les premiers<br><em>jours</em></h2>
+        <div class="memory-rule"></div>
+        <p class="memory-body">{{DESCRIPTION_1}}</p>
+      </div>
+    </article>
+
+    <div class="timeline-sep" data-reveal>
+      <div class="timeline-sep-line"></div>
+      <div class="timeline-sep-dot"></div>
+      <div class="timeline-sep-line"></div>
+    </div>
+
+    <!-- CHAPITRE II -->
+    <div class="chapter-label" data-reveal>
+      <div class="chapter-num">II</div>
+      <div class="chapter-meta">
+        <div class="chapter-tag">Deuxième année</div>
+        <div class="chapter-title">Le <em>milieu du chemin</em></div>
+      </div>
+    </div>
+
+    <article class="memory reverse" data-reveal>
+      <div class="memory-photo">
+        <div class="memory-photo-inner">
+          <!-- Photo de profil / portrait : on cible le haut pour garder le visage -->
+          <img src="image2.png"
+               alt="Deuxième année"
+               loading="lazy"
+               style="object-position: center 20%;">
+        </div>
+        <div class="film-tick">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="memory-text">
+        <p class="memory-date">Année 2 &nbsp;·&nbsp; 2024 – 2025</p>
+        <h2 class="memory-headline">Le cœur<br><em>de l'aventure</em></h2>
+        <div class="memory-rule"></div>
+        <p class="memory-body">{{DESCRIPTION_2}}</p>
+      </div>
+    </article>
+
+    <div class="timeline-sep" data-reveal>
+      <div class="timeline-sep-line"></div>
+      <div class="timeline-sep-dot"></div>
+      <div class="timeline-sep-line"></div>
+    </div>
+
+    <!-- CHAPITRE III -->
+    <div class="chapter-label" data-reveal>
+      <div class="chapter-num">III</div>
+      <div class="chapter-meta">
+        <div class="chapter-tag">Troisième année</div>
+        <div class="chapter-title">La <em>dernière page</em></div>
+      </div>
+    </div>
+
+    <article class="memory" data-reveal>
+      <div class="memory-photo">
+        <div class="memory-photo-inner">
+          <img src="image3.png"
+               alt="Troisième année"
+               loading="lazy"
+               style="object-position: center top;">
+        </div>
+        <div class="film-tick">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="memory-text">
+        <p class="memory-date">Année 3 &nbsp;·&nbsp; 2025 – 2026</p>
+        <h2 class="memory-headline">Ce qui<br><em>demeure</em></h2>
+        <div class="memory-rule"></div>
+        <p class="memory-body">{{DESCRIPTION_3}}</p>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- EPILOGUE -->
+  <section id="epilogue" data-reveal>
+    <div class="epilogue-ornament">✦</div>
+    <blockquote class="epilogue-quote">
+      « La nostalgie, c'est le souvenir d'un bonheur qu'on n'avait pas remarqué au moment où on le vivait. »
+      <br><br>
+      <strong class="auteur">Marcel Pagnol</strong> disait : « Il y a des instants de bonheur qu'on ne peut vivre qu'à condition de les avoir oubliés. » Peut-être que c'est ça, le secret : laisser le temps faire son œuvre, et chérir ces souvenirs qui, d'une certaine manière, nous ont façonnés.
+    </blockquote>
+    <p class="epilogue-attr">IUT Lyon 1 &nbsp;·&nbsp; SAE 206 &nbsp;·&nbsp; 2026</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <span class="footer-label">IUT Lyon 1</span>
+    </div>
+    <span class="footer-right">{{PRENOM}} {{NOM}} &nbsp;·&nbsp; BUT {{FORMATION}} &nbsp;·&nbsp; {{ANNEES}}</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

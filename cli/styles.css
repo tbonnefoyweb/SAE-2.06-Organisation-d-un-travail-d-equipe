@@ -1,0 +1,499 @@
+/* ══════════════════════════════════════════
+   RESET & VARIABLES
+══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #f0ead8;
+  --ink: #1a1714;
+  --sepia: #8b6f47;
+  --gold: #c9a84c;
+  --muted: #9a8f7e;
+  --faded: #d4c9b5;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Lato', sans-serif;
+
+  --space-sm: clamp(16px, 3vw, 28px);
+  --space-md: clamp(28px, 5vw, 56px);
+  --space-lg: clamp(48px, 8vw, 100px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: .042;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* ══════════════════════════════════════════
+   INTRO SCREEN
+══════════════════════════════════════════ */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  transition: opacity 1.4s ease, visibility 1.4s ease;
+}
+#intro.hidden { opacity: 0; visibility: hidden; }
+
+#intro-year {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 18vw, 11rem);
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: .06em;
+  opacity: 0;
+  animation: fadeUp 1.2s ease .4s forwards;
+}
+#intro-sub {
+  font-size: clamp(.58rem, 1.5vw, .72rem);
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 1.2s ease .9s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════════ */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--gold);
+  width: 0%;
+  z-index: 500;
+  transition: width .1s linear;
+}
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+#hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px var(--space-sm);
+  position: relative;
+  opacity: 0;
+  animation: heroIn 1.6s ease 2.4s forwards;
+}
+@keyframes heroIn { from { opacity: 0; } to { opacity: 1; } }
+
+.hero-eyebrow {
+  font-size: clamp(.58rem, 1.4vw, .68rem);
+  letter-spacing: .44em;
+  text-transform: uppercase;
+  color: var(--sepia);
+  margin-bottom: var(--space-sm);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 12vw, 8rem);
+  font-weight: 300;
+  line-height: .92;
+  letter-spacing: -.01em;
+  margin-bottom: var(--space-sm);
+}
+.hero-title em { font-style: italic; color: var(--sepia); }
+
+.hero-rule {
+  width: 44px; height: 1px;
+  background: var(--gold);
+  margin: 0 auto var(--space-sm);
+}
+.hero-sub {
+  font-family: var(--font-display);
+  font-size: clamp(.95rem, 2.5vw, 1.3rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: min(460px, 88vw);
+  line-height: 1.8;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: clamp(.55rem, 1.2vw, .62rem);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  animation: bobY 2.8s ease-in-out infinite;
+  white-space: nowrap;
+}
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, var(--muted), transparent);
+}
+@keyframes bobY {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(9px); }
+}
+
+/* ══════════════════════════════════════════
+   TIMELINE WRAPPER
+══════════════════════════════════════════ */
+#timeline {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-sm) calc(var(--space-lg) * 1.2);
+}
+
+/* ── CHAPTER LABEL ── */
+.chapter-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+.chapter-label.visible { opacity: 1; transform: translateY(0); }
+
+.chapter-num {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  font-weight: 300;
+  color: var(--faded);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.chapter-tag {
+  font-size: clamp(.55rem, 1.3vw, .63rem);
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--sepia);
+  margin-bottom: 6px;
+}
+.chapter-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4.5vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.1;
+}
+.chapter-title em { font-style: italic; color: var(--sepia); }
+
+/* ══════════════════════════════════════════
+   MEMORY BLOCK
+══════════════════════════════════════════ */
+.memory {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: clamp(72px, 12vw, 130px);
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity 1.1s ease, transform 1.1s ease;
+}
+.memory.visible { opacity: 1; transform: translateY(0); }
+.memory.reverse { direction: rtl; }
+.memory.reverse > * { direction: ltr; }
+
+/* ── Photo container ── */
+.memory-photo { position: relative; }
+
+.memory-photo-inner {
+  /*
+    En mode 2 colonnes (PC) : ratio portrait 4/5 → donne de la hauteur,
+    idéal pour les photos de personnes.
+    Sur tablette/mobile ce ratio change via media queries.
+  */
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Overlay doré léger */
+.memory-photo-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,.07) 0%, transparent 55%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Bordure pellicule */
+.memory-photo-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(139,111,71,.18);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/*
+  object-fit: cover est défini ici.
+  object-position est défini en inline style sur chaque <img>
+  pour cibler précisément le sujet photo par photo.
+  Valeurs recommandées :
+    "center top"   → visage/buste en haut
+    "center 20%"   → légèrement depuis le haut
+    "center center"→ milieu (défaut)
+    "center bottom"→ sujet en bas
+*/
+.memory-photo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* object-position défini en inline sur chaque img */
+  display: block;
+  filter: sepia(14%) contrast(1.03) brightness(.96);
+  transition: transform 9s ease, filter .7s ease;
+}
+.memory:hover .memory-photo-inner img {
+  transform: scale(1.05);
+  filter: sepia(5%) contrast(1.06) brightness(1.01);
+}
+
+/* ── Film strip ── */
+.film-tick {
+  height: 18px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+.film-tick span {
+  display: block;
+  width: 10px; height: 7px;
+  border: 1px solid var(--faded);
+  border-radius: 1px;
+}
+
+/* ── Text side ── */
+.memory-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 68px) clamp(20px, 5vw, 64px);
+}
+.memory-date {
+  font-size: clamp(.55rem, 1.3vw, .63rem);
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.memory-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.8vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.12;
+  margin-bottom: 16px;
+}
+.memory-headline em { font-style: italic; color: var(--sepia); }
+
+.memory-rule {
+  width: 30px; height: 1px;
+  background: var(--gold);
+  margin-bottom: 16px;
+}
+.memory-body {
+  font-family: var(--font-display);
+  font-size: clamp(.9rem, 1.8vw, 1.08rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--sepia);
+}
+
+/* ══════════════════════════════════════════
+   TIMELINE SEPARATOR
+══════════════════════════════════════════ */
+.timeline-sep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: clamp(-50px, -6vw, -70px) 0 clamp(52px, 7vw, 72px);
+  opacity: 0;
+  transition: opacity .9s ease;
+}
+.timeline-sep.visible { opacity: 1; }
+
+.timeline-sep-line {
+  height: 56px; width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--faded), transparent);
+}
+.timeline-sep-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+}
+
+/* ══════════════════════════════════════════
+   EPILOGUE
+══════════════════════════════════════════ */
+#epilogue {
+  text-align: center;
+  padding: var(--space-md) var(--space-sm) var(--space-lg);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+#epilogue.visible { opacity: 1; transform: translateY(0); }
+
+.epilogue-ornament {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--faded);
+  margin-bottom: 28px;
+}
+.epilogue-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.8vw, 1.85rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.85;
+  max-width: min(620px, 88vw);
+  margin: 0 auto 28px;
+  color: var(--ink);
+  text-align: left;
+}
+.auteur {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--ink);
+}
+.epilogue-attr {
+  font-size: clamp(.55rem, 1.3vw, .63rem);
+  letter-spacing: .36em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--faded);
+  width: 100%;
+  padding: clamp(20px, 3vw, 36px) clamp(24px, 5vw, 60px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.footer-logo img {
+  height: clamp(36px, 5vw, 52px);
+  width: auto;
+  opacity: .75;
+  filter: sepia(20%);
+}
+.footer-label {
+  font-size: clamp(.65rem, 1.4vw, .8rem);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer-right {
+  font-size: clamp(.6rem, 1.3vw, .75rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — TABLETTE (≤ 900px)
+   Les blocs passent en colonne.
+   Les photos prennent un ratio paysage pour
+   éviter d'être trop hautes — et garder le
+   sujet visible avec object-position.
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .memory {
+    grid-template-columns: 1fr;
+    margin-bottom: clamp(56px, 10vw, 90px);
+  }
+  .memory.reverse { direction: ltr; }
+
+  /*
+    En mode colonne le ratio 4/5 donne une image trop haute.
+    On passe en 3/2 pour un cadrage plus large et équilibré.
+    object-position (défini en inline) continue à cibler le bon endroit.
+  */
+  .memory-photo-inner { aspect-ratio: 3/2; }
+
+  .memory-text { padding: clamp(20px, 4vw, 36px) 0; }
+
+  .timeline-sep { margin: 0 0 clamp(40px, 6vw, 60px); }
+
+  .chapter-num { font-size: clamp(3rem, 7vw, 4.5rem); }
+
+  .epilogue-quote { text-align: center; }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 520px)
+══════════════════════════════════════════ */
+@media (max-width: 520px) {
+  #timeline { padding: 48px 18px 80px; }
+
+  /* Ratio légèrement plus carré sur mobile pour maximiser la surface */
+  .memory-photo-inner { aspect-ratio: 4/3; }
+
+  .film-tick span { width: 7px; height: 5px; }
+
+  footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .footer-logo {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-logo img { height: 42px; }
+}
