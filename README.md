@@ -1,4 +1,4 @@
-# SAE-2.06-Organisation-d-un-travail-d-equipe 
+# SAE 2.06 Organisation d'un travail d'équipe 
 
 ## Contexte du projet (SAE)
 
